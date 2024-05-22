@@ -1,0 +1,67 @@
+#app {
+    font-family: serif;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;  /*sets the height to 100% of the viewport height.*/
+    width: 100vw;   /*sets the width to 100% of the viewport width.*/
+}
+
+.inventory-container,.cart-container  {
+    position: relative;
+    top: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+li{
+    background-color: #fae3c0;
+    margin: 20px 0; /* 20px for top and bottom, 0 for left and right */
+    padding: 10px;
+    border-radius: 10px;
+}
+ul{
+    list-style-type: none; 
+    padding: 0 50px; /* 0 for top and bottom, 50px for left and right */
+}
+
+h1 {
+    font-size: 40px;
+}
+
+button {
+    margin: 5px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.inventory__minus-btn{
+    color:white;
+    background-color: red;
+}
+.inventory__plus-btn{
+    color:white;
+    background-color: green;
+}
+.inventory__addToCart-btn,.cart__delete-btn{
+    color:white;
+    background-color: #2737a1;
+}
+
+.checkout-btn {
+    width: 50%;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    position: absolute;  /* Positioned absolutely relative to cart-container */
+    right: 25%;  /* moves the right edge of the element to 25% from the right edge of the container. */
+    bottom: 30px;    
+}
+
+.cartPagination {
+    padding-bottom: 80px;
+    /* When inventory or cart containers exceed the default height (full screen),
+    create a space below pagination for checkout button*/
+}
