@@ -81,11 +81,15 @@ export default class Cart extends Component {
   };
 
   handleAddToCart = async (id) => {
+    
     if (this.state.itemCounts[Number(id)] === 0)
       return;
     let countInCart = 0;
+    let indexInCart = 0;
     try {
       countInCart = this.state.cart.find((item) => item.id === id).count;
+      indexInCart = this.state.cart.findIndex((item) => item.id === id);
+      console.log("id is "+ id + "; and index is " + indexInCart);
     } catch (Exception) {
       console.log("new item");
     }
@@ -101,7 +105,15 @@ export default class Cart extends Component {
           return item;
         }
       });
-      this.setState({ ...this.state, cart: newCart });
+      let currentCartIndex = Math.floor(indexInCart/this.state.itemsPerPage);
+      let cartStart = currentCartIndex * this.state.itemsPerPage;
+      let cartEnd = Math.min(cartStart + this.state.itemsPerPage, this.state.totalCartItemCount);
+      this.setState({
+        cart: newCart,
+        currentCartIndex,
+        cartStart,
+        cartEnd,
+      });
     } else {
       const inventoryItem = this.state.inventory.find((item) => item.id === id);
       const newItem = {
@@ -115,9 +127,6 @@ export default class Cart extends Component {
       let currentCartIndex = cartTotalPage-1;
       let cartStart = currentCartIndex * this.state.itemsPerPage;
       let cartEnd = Math.min(cartStart + this.state.itemsPerPage, totalCartItemCount);
-      console.log("currentCartIndex is " + currentCartIndex);
-      console.log(cartStart);
-      console.log(cartEnd);
       this.setState(
         { cart: [...this.state.cart, newItem],
           totalCartItemCount,
@@ -130,25 +139,31 @@ export default class Cart extends Component {
   };
   handledeleteCart = async (id) => {
     await deleteFromCart(Number(id));
-    this.setState({
-      cart: this.state.cart.filter((item, index) => {
-        return item.id !== id;
-      }),
-      totalCartItemCount: this.totalCartItemCount-1,
-    });
 
-    if (this.state.cartStart === this.state.cartEnd-1) {
-      let currentCartIndex = Math.min(0,this.state.cartStart-1);
+    if ((this.state.totalCartItemCount-1)%this.state.itemsPerPage === 0 ) {
+      console.log("page decrements");
+      //page decrements
+      let totalCartItemCount = this.state.totalCartItemCount-1;
+      let currentCartIndex = Math.max(0, this.state.currentCartIndex-1);
       let cartStart = currentCartIndex * this.state.itemsPerPage;
-      let cartEnd = Math.min(cartStart + this.state.itemsPerPage, this.state.totalCartItemCount);
-      console.log("currentCartIndex is " + currentCartIndex);
-      console.log(cartStart);
-      console.log(cartEnd);
+      let cartEnd = Math.min(cartStart + this.state.itemsPerPage, this.state.totalCartItemCount)
       this.setState({
+        cart: this.state.cart.filter((item, index) => {
+          return item.id !== id;
+        }),
+        totalCartItemCount,
         currentCartIndex,
         cartStart,
         cartEnd,
         cartTotalPage: this.state.cartTotalPage-1,
+      });
+    } else {
+      this.setState({
+        cart: this.state.cart.filter((item, index) => {
+          return item.id !== id;
+        }),
+        totalCartItemCount: this.state.totalCartItemCount-1,
+        cartEnd: Math.min(this.state.cartStart + this.state.itemsPerPage, this.state.totalCartItemCount-1),
       });
     }
     
