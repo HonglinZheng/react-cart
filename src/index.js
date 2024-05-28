@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Board from './hw0524';
+import Timer from './hw0523';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Board />
+    <Timer />
 );
 
 // If you want to start measuring performance in your app, pass a function
