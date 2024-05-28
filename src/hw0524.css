@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 40%;
+  }
+  
+  .App {
+    font-family: sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  table {
+    table-layout: fixed;
+    margin: 20px;
+    display: grid;
+  }
+  
+  td {
+    border: 1px;
+    background-color: lightgrey;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+  }
+  
+  .resetButton {
+    background-color: red;
+    color: white;
+  }
+  .result {
+    text-align: center;
+  }
